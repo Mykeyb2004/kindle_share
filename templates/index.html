@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>传书到 Kindle</title>
+  <style>
+    body { color: #000; background: #fff; font: 20px/1.6 sans-serif; margin: 20px; }
+    h1 { font-size: 28px; margin-bottom: 4px; }
+    p { margin: 8px 0 20px; }
+    a { color: #000; }
+    ul { padding: 0; list-style: none; }
+    li { border-top: 1px solid #000; padding: 18px 0; word-wrap: break-word; }
+    .download { display: inline-block; border: 2px solid #000; padding: 8px 20px; margin-top: 8px; }
+    .detail { font-size: 16px; }
+    .note { border-top: 2px solid #000; padding-top: 14px; font-size: 16px; }
+  </style>
+</head>
+<body>
+  <h1>传书到 Kindle</h1>
+  <p>共 {{ books|length }} 个文件 · <a href="{{ url_for('index') }}">刷新列表</a></p>
+  {% if books %}
+  <ul>
+    {% for book in books %}
+    <li>
+      <div><strong>{{ book.name }}</strong></div>
+      <div class="detail">{{ book.path }} · {{ book.size }}</div>
+      <a class="download" href="{{ url_for('download', relative=book.path) }}">下载 {{ book.name }}</a>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>文件夹里还没有可下载的书籍。请在电脑上放入书籍，再刷新此页。</p>
+  {% endif %}
+  <p class="note">显示 MOBI、AZW3、AZW、PDF、TXT。不同 Kindle 的浏览器支持不同，
+    优先尝试 MOBI；AZW3、PDF、TXT 能否直接下载取决于机型和固件。
+    EPUB 请先在电脑管理页面转为 MOBI，再刷新此页。
+    下载后可返回 Kindle 查看；显示位置及封面取决于固件。</p>
+</body>
+</html>
